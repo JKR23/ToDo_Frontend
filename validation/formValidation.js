@@ -11,9 +11,12 @@ export function validateLoginForm({ email, password }) {
  }
 
  if (!password.trim()) {
-  errors.password = "Le mot de passe ne peut pas être vide.";
- } else if (password.length < 8) {
+  errors.password = "Le mot de passe est requis.";
+ }
+ {
+  /*} else if (password.length < 8) {
   errors.password = "Le mot de passe doit contenir au moins 8 caractères.";
+ }*/
  }
 
  return errors;
