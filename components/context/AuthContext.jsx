@@ -6,9 +6,17 @@ const AuthContext = createContext(undefined);
 
 export function AuthProvider({ children }) {
  const [view, setView] = useState("welcome");
+ const [isAuthenticated, setIsAuthenticated] = useState(false);
 
  return (
-  <AuthContext.Provider value={{ view, setView }}>
+  <AuthContext.Provider
+   value={{
+    view,
+    setView,
+    isAuthenticated,
+    setIsAuthenticated,
+   }}
+  >
    {children}
   </AuthContext.Provider>
  );

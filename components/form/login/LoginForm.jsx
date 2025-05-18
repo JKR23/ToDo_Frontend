@@ -3,11 +3,13 @@ import { useState } from "react";
 import LoginButton from "./LoginButton";
 
 import { validateLoginForm } from "@/validation/formValidation.js";
+import { useAuth } from "@/components/context/AuthContext";
 
 export default function LoginForm({ onSwitch }) {
  const [email, setEmail] = useState("");
  const [password, setPassword] = useState("");
  const [error, setError] = useState("");
+ const { setIsAuthenticated, setView } = useAuth();
 
  const handleSubmit = async (e) => {
   e.preventDefault();
@@ -37,7 +39,14 @@ export default function LoginForm({ onSwitch }) {
    if (res.ok) {
     const data = await res.json();
     console.log("Connexion réussie :", data);
-    // Stocke le token ou redirige ici
+
+    //rendre user connected and change the view (page)
+    setIsAuthenticated(true);
+    setView("dashboard");
+
+    //vider les champs si connexion reussi
+    setEmail("");
+    setPassword("");
    } else {
     let errorMessage = "Échec de la connexion.";
     const contentType = res.headers.get("content-type");

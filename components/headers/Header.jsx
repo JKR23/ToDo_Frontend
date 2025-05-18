@@ -5,7 +5,7 @@ import logo from "@/public/ToDoLogo5.png";
 import { useAuth } from "@/components/context/AuthContext";
 
 export default function Header() {
- const { view } = useAuth(); // 👈 récupération du contexte
+ const { view, isAuthenticated } = useAuth(); // 👈 récupération du contexte
 
  return (
   <header className="bg-blue-600 p-4 shadow-md">
@@ -19,22 +19,24 @@ export default function Header() {
     {/* Menu */}
     <nav>
      <ul className="flex space-x-8">
-      <li>
-       <Link
-        href="/"
-        className="text-white font-semibold text-lg hover:text-blue-300 transition-colors"
-       >
-        Home
-       </Link>
-      </li>
+      {!isAuthenticated && (
+       <li>
+        <Link
+         href="/"
+         className="text-white font-semibold text-lg hover:text-blue-300 transition-colors"
+        >
+         Home
+        </Link>
+       </li>
+      )}
 
-      {/* Affiche les autres liens uniquement si la vue ≠ welcome */}
-      {view !== "welcome" && (
+      {/* Autres onglets visibles si connecté */}
+      {isAuthenticated && (
        <>
         <li>
          <Link
           href="/dashboard"
-          className="text-white font-semibold text-lg hover:text-blue-300 transition-colors"
+          className="text-white font-semibold text-lg hover:text-blue-300"
          >
           Dashboard
          </Link>
@@ -42,7 +44,7 @@ export default function Header() {
         <li>
          <Link
           href="/admin-dashboard"
-          className="text-white font-semibold text-lg hover:text-blue-300 transition-colors"
+          className="text-white font-semibold text-lg hover:text-blue-300"
          >
           AdminDashboard
          </Link>
@@ -50,7 +52,7 @@ export default function Header() {
         <li>
          <Link
           href="/contact"
-          className="text-white font-semibold text-lg hover:text-blue-300 transition-colors"
+          className="text-white font-semibold text-lg hover:text-blue-300"
          >
           Contact
          </Link>
@@ -58,7 +60,7 @@ export default function Header() {
         <li>
          <Link
           href="/login"
-          className="text-white font-semibold text-lg hover:text-blue-300 transition-colors"
+          className="text-white font-semibold text-lg hover:text-blue-300"
          >
           Déconnexion
          </Link>
