@@ -2,8 +2,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/public/ToDoLogo5.png";
+import { useAuth } from "@/components/context/AuthContext";
 
 export default function Header() {
+ const { view } = useAuth(); // 👈 récupération du contexte
+
  return (
   <header className="bg-blue-600 p-4 shadow-md">
    <div className="flex items-center justify-between">
@@ -24,38 +27,44 @@ export default function Header() {
         Home
        </Link>
       </li>
-      <li>
-       <Link
-        href="/dashboard"
-        className="text-white font-semibold text-lg hover:text-blue-300 transition-colors"
-       >
-        Dashboard
-       </Link>
-      </li>
-      <li>
-       <Link
-        href="/admin-dashboard"
-        className="text-white font-semibold text-lg hover:text-blue-300 transition-colors"
-       >
-        AdminDashboard
-       </Link>
-      </li>
-      <li>
-       <Link
-        href="/contact"
-        className="text-white font-semibold text-lg hover:text-blue-300 transition-colors"
-       >
-        Contact
-       </Link>
-      </li>
-      <li>
-       <Link
-        href="/login"
-        className="text-white font-semibold text-lg hover:text-blue-300 transition-colors"
-       >
-        Déconnexion
-       </Link>
-      </li>
+
+      {/* Affiche les autres liens uniquement si la vue ≠ welcome */}
+      {view !== "welcome" && (
+       <>
+        <li>
+         <Link
+          href="/dashboard"
+          className="text-white font-semibold text-lg hover:text-blue-300 transition-colors"
+         >
+          Dashboard
+         </Link>
+        </li>
+        <li>
+         <Link
+          href="/admin-dashboard"
+          className="text-white font-semibold text-lg hover:text-blue-300 transition-colors"
+         >
+          AdminDashboard
+         </Link>
+        </li>
+        <li>
+         <Link
+          href="/contact"
+          className="text-white font-semibold text-lg hover:text-blue-300 transition-colors"
+         >
+          Contact
+         </Link>
+        </li>
+        <li>
+         <Link
+          href="/login"
+          className="text-white font-semibold text-lg hover:text-blue-300 transition-colors"
+         >
+          Déconnexion
+         </Link>
+        </li>
+       </>
+      )}
      </ul>
     </nav>
    </div>

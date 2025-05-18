@@ -2,6 +2,8 @@
 import { useState } from "react";
 import LoginButton from "./LoginButton";
 
+import { validateLoginForm } from "@/validation/formValidation.js";
+
 export default function LoginForm({ onSwitch }) {
  const [email, setEmail] = useState("");
  const [password, setPassword] = useState("");
@@ -12,6 +14,13 @@ export default function LoginForm({ onSwitch }) {
   setError("");
 
   const loginData = { email, password };
+
+  const validationErrors = validateLoginForm(loginData);
+
+  if (Object.keys(validationErrors).length > 0) {
+   setError(Object.values(validationErrors)[0]);
+   return;
+  }
 
   try {
    const res = await fetch(
@@ -49,8 +58,6 @@ export default function LoginForm({ onSwitch }) {
   <div className="max-w-sm mx-auto p-6 bg-white shadow-md rounded text-gray-900">
    <h2 className="text-2xl font-bold mb-4 text-center">Connexion</h2>
 
-   {error && <p className="text-red-600 text-sm mb-3 text-center">{error}</p>}
-
    <input
     type="email"
     placeholder="Email"
@@ -66,6 +73,9 @@ export default function LoginForm({ onSwitch }) {
     onChange={(e) => setPassword(e.target.value)}
     className="w-full mb-3 p-2 border rounded placeholder-gray-500 text-gray-900"
    />
+   {error && (
+    <p className="text-red-600 text-sm mb-3 text-center italic">{error}</p>
+   )}
 
    <LoginButton onClick={handleSubmit} />
 
