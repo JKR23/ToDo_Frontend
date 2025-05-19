@@ -1,12 +1,21 @@
-// context/AuthContext.jsx : il fait le lien entre nos onglets headers et nos pages
+// context/AuthContext.jsx : il fait le lien entre nos onglets-headers et nos pages
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext(undefined);
 
 export function AuthProvider({ children }) {
  const [view, setView] = useState("welcome");
  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+ // Vérifie si un token est présent dans localStorage
+ useEffect(() => {
+  const token = localStorage.getItem("authToken");
+  if (token) {
+   setIsAuthenticated(true);
+   setView("dashboard");
+  }
+ }, []);
 
  return (
   <AuthContext.Provider

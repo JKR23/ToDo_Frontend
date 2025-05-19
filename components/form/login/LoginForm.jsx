@@ -1,22 +1,26 @@
 "use client";
 import { useState } from "react";
-import LoginButton from "./LoginButton";
-
 import { validateLoginForm } from "@/validation/formValidation.js";
 import { useAuth } from "@/components/context/AuthContext";
+import { useRouter } from "next/navigation";
+
+import LoginButton from "./LoginButton";
 
 export default function LoginForm({ onSwitch }) {
  const [email, setEmail] = useState("");
  const [password, setPassword] = useState("");
  const [error, setError] = useState("");
  const { setIsAuthenticated, setView } = useAuth();
+ const router = useRouter();
 
  const handleSubmit = async (e) => {
   e.preventDefault();
   setError("");
 
+  //creer une var via ces deux champs
   const loginData = { email, password };
 
+  //valider ces ce var
   const validationErrors = validateLoginForm(loginData);
 
   if (Object.keys(validationErrors).length > 0) {
@@ -25,6 +29,7 @@ export default function LoginForm({ onSwitch }) {
   }
 
   try {
+   //faire une requete a notre api du backend
    const res = await fetch(
     "https://todo-userservice.onrender.com/api/user-service/authentication/logIn",
     {
@@ -36,13 +41,19 @@ export default function LoginForm({ onSwitch }) {
     }
    );
 
+   //si requete ait marchE
    if (res.ok) {
-    const data = await res.json();
+    const data = await res.json(); //retourne un token
     console.log("Connexion réussie :", data);
+
+    // Stocke le token en localStorage
+    localStorage.setItem("authToken", data);
 
     //rendre user connected and change the view (page)
     setIsAuthenticated(true);
     setView("dashboard");
+
+    router.push("/dashboard");
 
     //vider les champs si connexion reussi
     setEmail("");

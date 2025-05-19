@@ -1,6 +1,6 @@
-import { AuthProvider } from "@/components/context/AuthContext";
 import { Geist, Geist_Mono } from "next/font/google";
-import Header from "@/components/headers/Header";
+import { AuthProvider } from "@/components/context/AuthContext";
+import HeaderWrapper from "@/components/headers/HeaderWrapper"; // ⬅️ Crée ce composant client
 import Footer from "@/components/footers/Footer";
 import "./globals.css";
 
@@ -24,10 +24,10 @@ export default function RootLayout({ children }) {
   <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
    <body className="flex flex-col min-h-screen h-full overflow-hidden">
     <AuthProvider>
-     <Header />
+     <HeaderWrapper /> {/* <-- Déplace la logique client ici */}
      <main className="flex-grow flex flex-col">{children}</main>
+     <Footer />
     </AuthProvider>
-    <Footer />
    </body>
   </html>
  );
