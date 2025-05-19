@@ -1,15 +1,13 @@
-import PrimaryButton from "./PrimaryButton";
-
-export default function Welcome({ onStart }) {
+export default function WelcomeMessage() {
  return (
-  <section className="flex flex-col justify-center items-center text-center bg-gray-100 w-full h-full">
+  <div className="text-center max-w-md">
    <h1 className="text-4xl font-bold text-blue-600 mb-4">
     Bienvenue sur MyToDo
    </h1>
-   <p className="text-gray-700 text-lg max-w-xl mb-6">
+   <p className="text-gray-700 text-lg">
     Gérer vos utilisateurs et leurs tâches n’a jamais été aussi simple.
+    Connectez-vous pour commencer à organiser efficacement vos projets.
    </p>
-   <PrimaryButton onClick={onStart}>Commencer</PrimaryButton>
-  </section>
+  </div>
  );
 }
