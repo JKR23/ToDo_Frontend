@@ -1,10 +1,9 @@
-// components/AuthPage.tsx
 "use client";
 import { useEffect } from "react";
 import { useAuth } from "@/components/context/AuthContext";
 import { useRouter } from "next/navigation";
 
-import Welcome from "@/components/welcome/Welcome";
+import WelcomeMessage from "@/components/welcome/Welcome"; // Nouveau composant sans bouton
 import LoginForm from "@/components/form/login/LoginForm";
 import SigninForm from "@/components/form/signin/SigninForm";
 
@@ -12,7 +11,6 @@ export default function AuthPage() {
  const { view, setView, isAuthenticated } = useAuth();
  const router = useRouter();
 
- // Gestion de redirection automatique si déconnecté
  useEffect(() => {
   if (!isAuthenticated && view === "dashboard") {
    setView("welcome");
@@ -20,17 +18,30 @@ export default function AuthPage() {
   }
  }, [isAuthenticated, view, setView, router]);
 
- console.log("Vue actuelle:", view);
-
- const handleStart = () => setView("login");
  const switchToRegister = () => setView("register");
  const switchToLogin = () => setView("login");
 
  return (
-  <div className="flex flex-grow items-center justify-center bg-gray-50 w-full h-full">
-   {view === "welcome" && <Welcome onStart={handleStart} />}
-   {view === "login" && <LoginForm onSwitch={switchToRegister} />}
-   {view === "register" && <SigninForm onSwitch={switchToLogin} />}
+  <div className="flex flex-grow h-full w-full bg-gray-100">
+   {(view === "welcome" || view === "login") && (
+    <div className="flex flex-1">
+     {/* Colonne gauche */}
+     <div className="w-1/2 flex items-center justify-center bg-blue-50 p-10">
+      <WelcomeMessage />
+     </div>
+
+     {/* Colonne droite */}
+     <div className="w-1/2 flex items-center justify-center p-10">
+      <LoginForm onSwitch={switchToRegister} />
+     </div>
+    </div>
+   )}
+
+   {view === "register" && (
+    <div className="flex flex-grow items-center justify-center w-full">
+     <SigninForm onSwitch={switchToLogin} />
+    </div>
+   )}
   </div>
  );
 }

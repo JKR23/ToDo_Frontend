@@ -1,4 +1,3 @@
-// components/headers/NavigationMenu.jsx
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,16 +17,7 @@ export default function NavigationMenu() {
  return (
   <nav>
    <ul className="flex space-x-8">
-    {!isAuthenticated ? (
-     <li>
-      <Link
-       href="/"
-       className="text-white font-semibold text-lg hover:text-blue-300 transition-colors"
-      >
-       Home
-      </Link>
-     </li>
-    ) : (
+    {isAuthenticated && (
      <>
       <li>
        <Link
